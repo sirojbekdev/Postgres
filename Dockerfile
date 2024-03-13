@@ -9,14 +9,14 @@ FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["Posgres/Posgres.csproj", "Posgres/"]
-RUN dotnet restore "./Posgres/Posgres.csproj"
+RUN dotnet restore "Posgres/Posgres.csproj"
 COPY . .
 WORKDIR "/src/Postgres/Posgres"
-RUN dotnet build "./Posgres.csproj" -c $BUILD_CONFIGURATION -o /app/build
+RUN dotnet build "Posgres.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
-ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./Posgres.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+ARG BUILD_CONFIGURATION=Publish
+RUN dotnet publish "Posgres.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
