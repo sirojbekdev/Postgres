@@ -11,7 +11,7 @@ WORKDIR /src
 COPY ["Posgres/Posgres.csproj", "Posgres/"]
 RUN dotnet restore "./Posgres/Posgres.csproj"
 COPY . .
-WORKDIR "/src/Posgres"
+WORKDIR "/src/Postgres/Posgres"
 RUN dotnet build "./Posgres.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
