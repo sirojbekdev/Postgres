@@ -21,5 +21,12 @@ namespace Posgres.Controllers
             var response = await _userService.Authenticate(model);
             return Ok(response);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetUsers()
+        {
+            var users = await _userService.GetAll();
+            return Ok(users);
+        }
     }
 }
