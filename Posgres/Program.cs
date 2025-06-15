@@ -20,8 +20,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<TaskDbContext>(options =>
 {
-    options.UseLazyLoadingProxies()
-    .UseNpgsql(builder.Configuration.GetConnectionString("Default"));
+    options
+    .UseNpgsql(builder.Configuration.GetConnectionString("Default")).UseLazyLoadingProxies();
 });
 builder.Services.AddScoped<IGenericRepository<User>, GenericRepository<User>>();
 builder.Services.AddScoped<IGenericRepository<Role>, GenericRepository<Role>>();
@@ -99,7 +99,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-
 app.UseCors(c => c
         .AllowAnyOrigin()
         .AllowAnyMethod()
@@ -116,10 +115,10 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-using (var scope = app.Services.CreateScope())
-{
-    var initialiser = scope.ServiceProvider.GetRequiredService<AppContextSeeding>();
-    await initialiser.Seed();
-}
+//using (var scope = app.Services.CreateScope())
+//{
+//    var initialiser = scope.ServiceProvider.GetRequiredService<AppContextSeeding>();
+//    await initialiser.Seed();
+//}
 
 app.Run();
